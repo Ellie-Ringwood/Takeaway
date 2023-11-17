@@ -11,7 +11,5 @@ public:
     void loadFile();
 private:
     std::string filePath;
-    std::string line;
-    std::string word;
 };
 
