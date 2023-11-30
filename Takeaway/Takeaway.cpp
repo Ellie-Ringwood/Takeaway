@@ -32,8 +32,9 @@ int main()
 	Menu menu = Menu("menu.csv");
 
 	// Create an order object
-	/*
 	Order order = Order();
+
+	cout << "Enter menu, add, remove, checkout, help or quit: " << endl;
 
 	while (userCommand != "exit")
 	{
@@ -57,8 +58,24 @@ int main()
 		}
 		else if (command.compare("add") == 0)
 		{
-			Item* choice; // you need to instantiate this using the menu object!
-			order.add(choice);
+			/*
+			bool valid = false;
+			while (valid == false) {
+				string userChoice;
+				getline(cin, userChoice);
+
+				try {
+					stoi(userChoice);
+				}
+				catch (runtime_error) {
+					std::cout << "moo" << endl;
+				}
+			}
+			*/
+			
+
+			//Item* choice; // you need to instantiate this using the menu object!
+			//order.add(choice);
 
 			// You may also wish to implement the ability to add multiple items at once!
 			// e.g. add 1 5 9
@@ -79,8 +96,6 @@ int main()
 		parameters.clear();
 	}
 
-	cout << "Press any key to quit...";
+	std::cout << "Press any key to quit...";
 	std::getchar();
-	*/
-
 }

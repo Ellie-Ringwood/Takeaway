@@ -3,6 +3,7 @@
 #include "Appetiser.h"
 #include "MainCourse.h"
 #include <sstream> 
+#include <vector>
 
 Menu::Menu(std::string inputFilePath) {
     filePath = inputFilePath;
@@ -13,15 +14,12 @@ void Menu::loadFile() {
     std::string line;
     std::ifstream file;
 
-    
-    
-
-    int count = 1;
-    int countIncludingEmpty = 1;
-
     file.open(filePath);
     if (file.is_open()) {
-        while (getline(file, line,',')) {
+        while (getline(file, line)) {
+            std::istringstream stringStream(line);
+            std::string word;
+
             std::string type = " ";
             std::string name = " ";
             double price = -1.0;
@@ -31,71 +29,65 @@ void Menu::loadFile() {
             int volume = -1;
             double abv = -1.0;
 
-            std::cout << line << count << std::endl;
+            int count = 0;
             
-            if (!line.empty()) {
-            switch (count) {
-                case 1: //type
-                    type = line;
-                    break;
-                case 2: //name
-                    name = line;
-                    break;
-                case 3://price
-                    price = stod(line);
-                    break;
-                case 4://calories
-                    calories=stoi(line);
-                    break;
-                case 5://shareable
-                    if (line == "y") {
-                        shareable = true;
+            while (getline(stringStream, word, ',')) {
+                if (!line.empty()&& word.find_first_not_of(" ") != std::string::npos) {
+                    switch (count) {
+                    case 0: //type
+                        type = word;
+                        break;
+                    case 1: //name
+                        name = word;
+                        break;
+                    case 2://price
+                        price = stod(word);
+                        break;
+                    case 3://calories
+                        calories = stoi(word);
+                        break;
+                    case 4://shareable
+                        if (word == "y") {
+                            shareable = true;
+                        }
+                        break;
+                    case 5://2-4-1
+                        if (word == "y") {
+                            twoForOne = true;
+                        }
+                        break;
+                    case 6://volume
+                        volume = stoi(word);
+                        break;
+                    case 7://Abv
+                        abv = stod(word);
+                        break;
                     }
-                    break;
-                case 6://2-4-1
-                    if (line == "y") {
-                        twoForOne = true;
-                    }
-                    break;
-                case 7://volume
-                    volume = stoi(line);
-                    break;
-                case 8://Abv
-                    abv = stod(line);
-                    count = 0;
-                    break;
                 }
+                count++;
             }
-            else {
-                std::cout << "empty" << count << std::endl;
-                if (count == 7) {
-                    count = 0;
-                }
-                else {
 
-                }
+            if (type == "a"){
+                Appetiser* appetiser = new Appetiser(name,calories,price,shareable,twoForOne);
+                items.push_back(appetiser);
             }
-            count++;
-
-
-            //std::cout << type << name << price << calories << shareable << twoForOne << volume << abv << std::endl;
-            
-
-            //std::cout << line << std::endl;
-            /*int previousIndex = 0;
-            for (int i = 0; i < line.length(); i++) {
-                if (line[i] == ',') {
-
-                    previousIndex = i;
-                }
-                std::cout << i << std::endl;
+            else if (type == "b") {
+                Beverage* beverage = new Beverage(name,calories, price,abv,volume);
+                items.push_back(beverage);
             }
-            */
-            
-
-            //std::cout << line << std::endl;
-            //items.push_back(item);
+            else if (type == "m") {
+                MainCourse* mainCourse = new MainCourse(name, calories, price);
+                items.push_back(mainCourse);
+            }
         }
         file.close();
     }
+}
+
+std::string Menu::toString() {
+    std::string output;
+    for (int i = 1; i < items.size()+1; i++) {
+        output = output + "(" + std::to_string(i) + ") " + items[i]->toString();
+    }
+    return output;
 }
