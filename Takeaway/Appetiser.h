@@ -3,11 +3,10 @@
 class Appetiser : public Item
 {
 public:
-	Appetiser(std::string, int, double, bool, bool);
+	Appetiser(std::string, std::string, int, double, bool, bool);
 	~Appetiser();
-	void setShareable(bool);
-	void setTwoForOne(bool);
 	std::string toString();
+	bool getShareable();
 private:
 	bool shareable;
 	bool twoForOne;

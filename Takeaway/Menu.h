@@ -8,10 +8,10 @@ class Menu : public ItemList
 {
 public:
     Menu(std::string);
+    ~Menu();
     void loadFile();
     virtual std::string toString();
 private:
     std::string filePath;
-    std::vector <Item*> items;
 };
 

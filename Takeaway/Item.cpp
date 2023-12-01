@@ -1,10 +1,23 @@
 #include "Item.h"
 
-Item::Item(std::string inputName, int inputCalories, double inputPrice) {
+Item::Item(std::string itype,std::string inputName, int inputCalories, double inputPrice) {
 	//std::cout << "item created" << std::endl;
+	type = itype;
 	name = inputName;
 	calories = inputCalories;
 	price = inputPrice;
+}
+
+double Item::getPrice() {
+	return price;
+}
+
+std::string Item::getName() {
+	return name;
+}
+
+std::string Item::getType() {
+	return type;
 }
 
 std::string Item::toString() {

@@ -3,7 +3,7 @@
 class MainCourse :public Item
 {
 public:
-	MainCourse(std::string, int, double);
+	MainCourse(std::string,std::string, int, double);
 	~MainCourse();
 };
 

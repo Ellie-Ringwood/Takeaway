@@ -1,6 +1,6 @@
 #include "Appetiser.h"
 
-Appetiser::Appetiser(std::string iname, int icalories, double iprice, bool ishareable, bool itwoForOne):Item(iname, icalories, iprice) {
+Appetiser::Appetiser(std::string itype,std::string iname, int icalories, double iprice, bool ishareable, bool itwoForOne):Item(itype,iname, icalories, iprice) {
 	//std::cout << "appetiser created" << std::endl;
 	shareable = ishareable;
 	twoForOne = itwoForOne;
@@ -10,12 +10,8 @@ Appetiser::~Appetiser() {
 
 }
 
-void Appetiser::setShareable(bool inputShareable) {
-	shareable = inputShareable;
-}
-
-void Appetiser::setTwoForOne(bool inputTwoForOne) {
-	twoForOne = inputTwoForOne;
+bool Appetiser::getShareable() {
+	return shareable;
 }
 
 std::string Appetiser::toString() {

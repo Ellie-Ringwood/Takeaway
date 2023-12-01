@@ -1,5 +1,6 @@
 #pragma once
 #include "ItemList.h"
+#include <fstream>
 class Order : public ItemList
 {
 public:
@@ -8,8 +9,11 @@ public:
 	double calculateTotal();
 	void printReceipt();
 	void add(Item*);
-	void remove(Item*);
+	void remove(int);
 	std::string toString();
+	int basketSize();
 private:
 	double total;
+	double savings;
+	std::vector<Item*> basket;
 };

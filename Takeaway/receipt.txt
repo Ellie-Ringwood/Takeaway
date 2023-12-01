@@ -1,0 +1,5 @@
+----Basket----
+(1) Nachos: œ4.990000, 600 cal (shareable)
+(2) Garlic bread: œ3.990000, 500 cal (2-4-1)
+Savings: œ0.000000
+Total: œ8.980000

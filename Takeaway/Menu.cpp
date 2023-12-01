@@ -5,9 +5,18 @@
 #include <sstream> 
 #include <vector>
 
+//split into seperate vectors so they can easily be printed out in correct sections in toString() no matter the order they are in the file
+std::vector<Item*> appetisers; 
+std::vector<Item*> beverages;
+std::vector<Item*> mainCourses;
+
 Menu::Menu(std::string inputFilePath) {
     filePath = inputFilePath;
     loadFile();
+}
+
+Menu::~Menu() {
+
 }
 
 void Menu::loadFile() {
@@ -16,7 +25,7 @@ void Menu::loadFile() {
 
     file.open(filePath);
     if (file.is_open()) {
-        while (getline(file, line)) {
+        while (getline(file, line)) { //split up file into lines
             std::istringstream stringStream(line);
             std::string word;
 
@@ -31,8 +40,8 @@ void Menu::loadFile() {
 
             int count = 0;
             
-            while (getline(stringStream, word, ',')) {
-                if (!line.empty()&& word.find_first_not_of(" ") != std::string::npos) {
+            while (getline(stringStream, word, ',')) { //split up lines into words
+                if (!word.empty()) {
                     switch (count) {
                     case 0: //type
                         type = word;
@@ -66,18 +75,20 @@ void Menu::loadFile() {
                 }
                 count++;
             }
-
-            if (type == "a"){
-                Appetiser* appetiser = new Appetiser(name,calories,price,shareable,twoForOne);
+            if (type == "a"){ //initialise Item child classes depending on type
+                Appetiser* appetiser = new Appetiser(type,name,calories,price,shareable,twoForOne);
                 items.push_back(appetiser);
+                appetisers.push_back(appetiser); //seperated into vectors for easier toString() later
             }
             else if (type == "b") {
-                Beverage* beverage = new Beverage(name,calories, price,abv,volume);
+                Beverage* beverage = new Beverage(type,name,calories, price,abv,volume);
                 items.push_back(beverage);
+                beverages.push_back(beverage); //seperated into vectors for easier toString() later
             }
             else if (type == "m") {
-                MainCourse* mainCourse = new MainCourse(name, calories, price);
+                MainCourse* mainCourse = new MainCourse(type,name, calories, price);
                 items.push_back(mainCourse);
+                mainCourses.push_back(mainCourse); //seperated into vectors for easier toString() later
             }
         }
         file.close();
@@ -86,8 +97,28 @@ void Menu::loadFile() {
 
 std::string Menu::toString() {
     std::string output;
-    for (int i = 1; i < items.size()+1; i++) {
-        output = output + "(" + std::to_string(i) + ") " + items[i]->toString();
+    //no matter order in files, will be put in correct sections
+    //already split into vectors based on type, so dont have to do it repeatedly
+    int count = 1;
+    output += "--------------- MENU -----------------\n";
+    output += "\t---- APPETISERS ----\n";
+    for (int i = 0; i < appetisers.size(); i++) {
+        output += "(" + std::to_string(count) + ") " + appetisers[i]->toString() + "\n";
+        count += 1;
+    }
+    output += "\n\t--- MAIN COURSES ---\n";
+    for (int i = 0; i < mainCourses.size(); i++) {
+        output += "(" + std::to_string(count) + ") " + mainCourses[i]->toString() + "\n";
+        count += 1;
+    }
+    output += "\n\t----- BEVERAGES -----\n";
+    for (int i = 0; i < beverages.size(); i++) {
+        output = output + "(" + std::to_string(count) + ") " + beverages[i]->toString() + "\n";
+        count += 1;
     }
     return output;
 }
+
+
+
+

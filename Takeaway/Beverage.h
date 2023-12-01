@@ -3,7 +3,7 @@
 class Beverage :public Item
 {
 public:
-	Beverage(std::string, int, double, double, int);
+	Beverage(std::string, std::string, int, double, double, int);
 	~Beverage();
 	bool isAlcoholic();
 	std::string toString();
