@@ -9,7 +9,7 @@ public:
 	double calculateTotal();
 	void printReceipt();
 	void add(Item*);
-	void remove(int);
+	void remove(vector<int>);
 	std::string toString();
 	int basketSize();
 private:

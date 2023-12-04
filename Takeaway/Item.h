@@ -12,6 +12,7 @@ public:
 	double getPrice();
 	std::string getName();
 	std::string getType();
+	virtual bool getTwoForOne();
 protected:
 	std::string type;
 	std::string name;

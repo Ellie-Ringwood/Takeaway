@@ -10,8 +10,8 @@ Appetiser::~Appetiser() {
 
 }
 
-bool Appetiser::getShareable() {
-	return shareable;
+bool Appetiser::getTwoForOne() {
+	return twoForOne;
 }
 
 std::string Appetiser::toString() {

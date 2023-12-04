@@ -36,7 +36,7 @@ int main()
 
 	while (userCommand != "exit")
 	{
-		cout << "\nEnter menu, add, remove, checkout, help or exit: ";
+		cout << "\nEnter menu, sort, add, remove, checkout, help or exit: ";
 		getline(cin, userCommand);
 		char* cstr = new char[userCommand.length() + 1];
 		strcpy(cstr, userCommand.c_str());
@@ -58,49 +58,54 @@ int main()
 		else if (command.compare("add") == 0)
 		{
 			int userChoice = 0;
-			std::cout << "--------------- ADD ITEM ---------------" << endl;
-			while (userChoice < 1 || userChoice > menu.items.size()) {
-				std::cout << "Enter index number of item to add: ";
-				std::cin >> userChoice;
-				std::cin.clear(); //stops infinate loop of cin not being called properly
-				std::cin.ignore();
+			try {
+				for (int i = 1; i < parameters.size();i++) {
+					userChoice = stoi(parameters[i]);
+					Item* choice; // you need to instantiate this using the menu object!
+					choice = menu.items[userChoice - 1];
+					order.add(choice);
+				}
+				std::cout << order.toString() << std::endl;
+				
 			}
-			
-			Item* choice; // you need to instantiate this using the menu object!
-			choice = menu.items[userChoice-1];
-			order.add(choice);
-
-			// You may also wish to implement the ability to add multiple items at once!
-			// e.g. add 1 5 9
+			catch (...) {
+				std::cout << "Not exceptable input, try again" << std::endl;
+			}
 		}
 		else if (command.compare("remove") == 0)
 		{
-			int userChoice = 0;
-			std::cout << "------------- REMOVE ITEM ---------------" << endl;
-			while (userChoice < 1 || userChoice > order.basketSize()) {
-				std::cout << "Enter index number of item to remove: ";
-				std::cin >> userChoice;
-				std::cin.clear(); //stops infinate loop of cin not being called properly
-				std::cin.ignore();
+			vector<int> positions;
+			try {
+				for (int i = 1; i < parameters.size();i++) {
+					positions.push_back(stoi(parameters[i]));
+				}
+				order.remove(positions);
+				std::cout << order.toString() << std::endl;
 			}
-			order.remove(userChoice - 1);
+			catch (...) {
+				std::cout << "Not exceptable input, try again" << std::endl;
+			}
 		}
 		else if (command.compare("checkout") == 0)
 		{
 			std::cout << "------------ CHECKOUT --------------\n"
 				<< order.toString() << std::endl;
 			std::string userChoice;
-			while (!(userChoice.compare("edit") == 0 || userChoice.compare("exit") == 0)) {
-				std::cout << "Enter 'edit' to modify or 'exit' to check out: ";
+			while (!(userChoice.compare("y") == 0 || userChoice.compare("n") == 0)) {
+				std::cout << "Do you want to place your order?\nType 'y' to confirm, or 'n' to go back and modify it: ";
 				std::cin >> userChoice;
 				std::cin.clear(); //stops infinate loop of cin not being called properly
 				std::cin.ignore();
 			}
-			if (userChoice.compare("exit") == 0){
+			if (userChoice.compare("y") == 0){
 				std::cout << "Your receipt has been saved. Thank you for ordering! Good-Bye" << std::endl;
 				order.printReceipt();
 				userCommand = "exit";
 			}
+		}
+		else if (command.compare("sort") == 0)
+		{
+
 		}
 		else if (command.compare("help") == 0)
 		{

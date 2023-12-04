@@ -6,7 +6,7 @@ public:
 	Appetiser(std::string, std::string, int, double, bool, bool);
 	~Appetiser();
 	std::string toString();
-	bool getShareable();
+	bool getTwoForOne();
 private:
 	bool shareable;
 	bool twoForOne;

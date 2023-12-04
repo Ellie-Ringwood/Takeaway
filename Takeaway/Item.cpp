@@ -25,3 +25,7 @@ std::string Item::toString() {
 	return name + ": " + pound + std::to_string(price) +  ", " + std::to_string(calories) + " cal ";
 }
 
+bool Item::getTwoForOne() {
+	return false;
+}
+
