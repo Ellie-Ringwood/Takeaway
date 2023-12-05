@@ -1,4 +1,5 @@
 #include "Item.h"
+#include <iomanip>
 
 Item::Item(std::string itype,std::string inputName, int inputCalories, double inputPrice) {
 	//std::cout << "item created" << std::endl;
@@ -22,7 +23,9 @@ std::string Item::getType() {
 
 std::string Item::toString() {
 	char pound = 156;
-	return name + ": " + pound + std::to_string(price) +  ", " + std::to_string(calories) + " cal ";
+	std::stringstream stream;
+	stream << std::fixed << std::setprecision(2) << price;
+	return name + ": " + pound + stream.str() + ", " + std::to_string(calories) + " cal ";
 }
 
 bool Item::getTwoForOne() {

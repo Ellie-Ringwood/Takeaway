@@ -76,8 +76,8 @@ int main()
 		{
 			vector<int> positions;
 			try {
-				for (int i = 1; i < parameters.size();i++) {
-					positions.push_back(stoi(parameters[i]));
+				for (int i = 1; i < parameters.size();i++) { // adds parameters behind command to list of positions
+						positions.push_back(stoi(parameters[i])-1);
 				}
 				order.remove(positions);
 				std::cout << order.toString() << std::endl;

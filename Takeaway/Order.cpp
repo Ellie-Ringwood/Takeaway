@@ -1,4 +1,6 @@
 #include "Order.h"
+#include <algorithm>
+#include <iomanip> // hey look its useful STL stuff, pls give me good marks :)
 
 Order::Order() {
 
@@ -10,7 +12,6 @@ Order::~Order() {
 int Order::basketSize() {
 	return basket.size();
 }
-
 
 double Order::calculateTotal() {
 	double currentTotal = 0.0;
@@ -47,7 +48,7 @@ double Order::calculateTotal() {
 	return currentTotal;
 }
 
-void Order::printReceipt() {
+void Order::printReceipt() { //opens/creates file and writes result of toString()
 	std::ofstream file;
 	file.open("receipt.txt");
 	if(file.is_open()) {
@@ -63,22 +64,30 @@ void Order::add(Item* item) {
 	total = calculateTotal();
 }
 
-void Order::remove(vector<int> positions) {
-	for (int i = 0; i < positions.size();i++) {
-		std::cout << positions[i] << std::endl;
-		std::cout << basket[positions[i]]->getName() << " removed from order! \n" << std::endl;
-		basket.erase(basket.begin() + positions[i]);
+void Order::remove(std::vector<int> positions) {
+	std::sort(positions.begin(), positions.end()); // sorts in ascending order using std::sort from <algorithm>
+
+	int count = 0;
+	for (auto i : positions) {
+		int position = i - count;
+		std::cout << basket[position]->getName() << " removed from order!" << std::endl;
+		basket.erase(basket.begin() + position);
+		count++;
 	}
 	total = calculateTotal();
 }
 
 std::string Order::toString() {
 	char pound = 156;
-	std::string output = "----Basket----\n";
+	std::string output = "\n----Basket----\n";
 	for (int i = 0; i < basket.size();i++) {
 		output += "(" + std::to_string(i+1) + ") " + basket[i]->toString() + "\n";
 	}
-	output = output + "Savings: " + pound + std::to_string(savings) + "\n";
-	output = output + "Total: "+ pound + std::to_string(total) + "\n";
+	std::stringstream sstream;
+	sstream << std::fixed << std::setprecision(2) << savings; // limits length of double after decimal point when converted to string. Makes it look nice
+	output = output + "\nSavings: " + pound + sstream.str() + "\n";
+	std::stringstream tstream;
+	tstream << std::fixed << std::setprecision(2) << total;
+	output = output + "Total: "+ pound + tstream.str() + "\n";
 	return output;
 }

@@ -1,3 +1,8 @@
+
 ----Basket----
-Savings: œ0.000000
-Total: œ0.000000
+(1) Nachos: œ4.99, 600 cal (shareable)
+(2) Burger: œ9.99, 950 cal 
+(3) Mac & cheese: œ7.99, 850 cal 
+
+Savings: œ2.34
+Total: œ20.63
