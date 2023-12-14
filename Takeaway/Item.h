@@ -9,9 +9,9 @@ public:
 	Item(std::string, std::string, int, double);
 	Item();
 	virtual std::string toString();
-	double getPrice();
-	std::string getName();
-	std::string getType();
+	double getPrice() const;
+	std::string getName() const;
+	std::string getType() const;
 	virtual bool getTwoForOne();
 protected:
 	std::string type;

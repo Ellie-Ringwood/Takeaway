@@ -34,9 +34,18 @@ int main()
 	// Create an order object
 	Order order = Order();
 
+	std::cout<< "Enter one of these commands:\n"
+		<< "'menu' to display menu by item type\n"
+		<< "'menu asc' or 'menu desc' to display menu by price order!!!!!\n"
+		<< "'add _ _ ...' where '_'s are item numbers on most recent menu (if sort menu by price, will use that order)\n"
+		<< "'remove _ _ ...' where '_'s are position in the order\n"
+		<< "'checkout' to display order, price and savings and to check out\n"
+		<< "'help' to see this again\n"
+		<< "'exit' to exit program"<<std::endl;
+
 	while (userCommand != "exit")
 	{
-		cout << "\nEnter menu, sort, add, remove, checkout, help or exit: ";
+		cout << "\nEnter command: ";
 		getline(cin, userCommand);
 		char* cstr = new char[userCommand.length() + 1];
 		strcpy(cstr, userCommand.c_str());
@@ -53,7 +62,18 @@ int main()
 		string command = parameters[0];
 
 		if (command.compare("menu") == 0) {
-			std::cout << menu.toString();
+			if (parameters.size() == 1) {
+				menu.currentList = menu.items; //re-orders back to type based order
+				std::cout << menu.toString();
+			}
+			else{
+				if (parameters[1]=="asc") {
+					std::cout << menu.toString(menu.sortByPrice(true)); //re-orders to ascending price
+				}
+				else if (parameters[1] == "desc") {
+					std::cout << menu.toString(menu.sortByPrice(false)); //re-orders to descending price
+				}
+			}
 		}
 		else if (command.compare("add") == 0)
 		{
@@ -61,15 +81,20 @@ int main()
 			try {
 				for (int i = 1; i < parameters.size();i++) {
 					userChoice = stoi(parameters[i]);
-					Item* choice; // you need to instantiate this using the menu object!
-					choice = menu.items[userChoice - 1];
-					order.add(choice);
+					if (userChoice < menu.currentList.size()) {
+						Item* choice; // you need to instantiate this using the menu object!
+						choice = menu.currentList[userChoice - 1];
+						order.add(choice);
+						//choice released when passed out of scope
+					}
+					else {
+						std::cout << "Invalid item number" << std::endl;
+					}
 				}
 				std::cout << order.toString() << std::endl;
-				
 			}
 			catch (...) {
-				std::cout << "Not exceptable input, try again" << std::endl;
+				std::cout << "Not acceptable input, try again" << std::endl;
 			}
 		}
 		else if (command.compare("remove") == 0)
@@ -83,7 +108,7 @@ int main()
 				std::cout << order.toString() << std::endl;
 			}
 			catch (...) {
-				std::cout << "Not exceptable input, try again" << std::endl;
+				std::cout << "Not acceptable input, try again" << std::endl;
 			}
 		}
 		else if (command.compare("checkout") == 0)
@@ -103,20 +128,17 @@ int main()
 				userCommand = "exit";
 			}
 		}
-		else if (command.compare("sort") == 0)
-		{
-
-		}
 		else if (command.compare("help") == 0)
 		{
 			std::cout << "------------- HELP :) ---------------\n"
 				<< "Enter one of these commands:\n"
-				<< "menu - display the menu to the user\n"
-				<< "add [INDEX] - add an item to the order by numeric index in the menu(starting at 1)\n"
-				<< "remove [INDEX] - remove item from order by numeric index in the order(starting at 1)\n"
-				<< "checkout - display the items in the user’s order, the price, and discount savings\n"
-				<< "help - display a help menu for the user with the available options\n"
-				<< "exit - terminate the program gracefully\n";
+				<<"'menu' to display menu by item type\n"
+				<< "'menu asc' or 'menu desc' to display menu by price order\n"
+				<<"'add _ _ ...' where '_'s are item numbers on most recent menu (if sort menu by price, will use that order)\n"
+				<<"'remove _ _ ...' where '_'s are position in the order\n"
+				<<"'checkout' to display order, price and savings and to check out\n"
+				<<"'help' to see this again\n"
+				<<"'exit' to exit program";
 		}
 		parameters.clear();
 	}

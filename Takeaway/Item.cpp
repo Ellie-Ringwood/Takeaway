@@ -9,15 +9,15 @@ Item::Item(std::string itype,std::string inputName, int inputCalories, double in
 	price = inputPrice;
 }
 
-double Item::getPrice() {
+double Item::getPrice() const{
 	return price;
 }
 
-std::string Item::getName() {
+std::string Item::getName() const{
 	return name;
 }
 
-std::string Item::getType() {
+std::string Item::getType() const{
 	return type;
 }
 

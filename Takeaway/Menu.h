@@ -11,6 +11,8 @@ public:
     ~Menu();
     void loadFile();
     virtual std::string toString();
+    std::string toString(std::vector<Item*>);
+    std::vector<Item*> sortByPrice(bool);
 private:
     std::string filePath;
 };

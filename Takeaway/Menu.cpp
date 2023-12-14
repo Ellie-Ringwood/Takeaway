@@ -91,6 +91,7 @@ void Menu::loadFile() {
                 mainCourses.push_back(mainCourse); //seperated into vectors for easier toString() later
             }
         }
+        currentList = items;
         file.close();
     }
 }
@@ -118,6 +119,27 @@ std::string Menu::toString() {
     }
     return output;
 }
+
+std::string Menu::toString(std::vector<Item*> list) {
+    std::string output;
+    output += "--------------- MENU -----------------\n";
+    for (int i = 0; i < list.size();i++) {
+        output += "(" + std::to_string(i+1) +") " + list[i]->toString() + "\n";
+    }
+    return output;
+}
+
+std::vector<Item*> Menu::sortByPrice(bool isAscending) {
+    if (isAscending == true) {
+        std::sort(currentList.begin(), currentList.end(), [](const Item* item1, const Item* item2) {return (item1->getPrice() < item2->getPrice());});
+    }
+    else {
+        std::sort(currentList.begin(), currentList.end(), [](const Item* item1, const Item* item2) {return (item1->getPrice() > item2->getPrice());});
+    }
+    return currentList;
+}
+
+
 
 
 

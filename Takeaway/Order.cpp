@@ -1,6 +1,4 @@
 #include "Order.h"
-#include <algorithm>
-#include <iomanip> // hey look its useful STL stuff, pls give me good marks :)
 
 Order::Order() {
 
@@ -70,8 +68,13 @@ void Order::remove(std::vector<int> positions) {
 	int count = 0;
 	for (auto i : positions) {
 		int position = i - count;
-		std::cout << basket[position]->getName() << " removed from order!" << std::endl;
-		basket.erase(basket.begin() + position);
+		if (position < basket.size()) {
+			std::cout << basket[position]->getName() << " removed from order!" << std::endl;
+			basket.erase(basket.begin() + position);
+		}
+		else {
+			std::cout <<"There is no item at position "<< i+1 << std::endl;
+		}
 		count++;
 	}
 	total = calculateTotal();
